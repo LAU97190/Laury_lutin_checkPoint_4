@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 // Import the main app component
 import App from "./App";
 import HomePage from "./pages/HomePage/HomePage";
+import Login from "./pages/User/Login/Login";
 import Register from "./pages/User/Registrer/Registrer";
 
 // Import additional components for new routes
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },

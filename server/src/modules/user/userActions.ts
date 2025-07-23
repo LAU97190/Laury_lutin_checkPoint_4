@@ -1,5 +1,27 @@
+import { profile } from "node:console";
 import type { RequestHandler } from "express";
 import userRepository from "./userRepository";
+
+const browse: RequestHandler = async (req, res) => {
+  const users = await userRepository.readAll();
+
+  res.json(users);
+};
+
+const read: RequestHandler = async (req, res, next) => {
+  try {
+    const parseId = Number.parseInt(req.params.id);
+    const user = await userRepository.read(parseId);
+
+    if (user != null) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
 const add: RequestHandler = async (req, res, next) => {
   try {
@@ -8,6 +30,7 @@ const add: RequestHandler = async (req, res, next) => {
       lastname: req.body.lastname,
       email: req.body.email,
       hashed_password: req.body.hashed_password,
+      profile_pic: req.body.profile_pic,
     };
 
     const insertId = await userRepository.create(newUser);
@@ -23,4 +46,4 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add };
+export default { browse, read, add };
