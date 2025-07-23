@@ -16,7 +16,8 @@ router.get("/api/items/:id", itemActions.read);
 router.post("/api/items", itemActions.add);
 
 /* ************************************************************************* */
-
+router.get("/api/users", userActions.browse);
+router.get("/api/users/:id", userActions.read);
 router.post("/api/users", authAction.hashPassword, userActions.add);
-
+router.post("/api/login", authAction.login);
 export default router;
