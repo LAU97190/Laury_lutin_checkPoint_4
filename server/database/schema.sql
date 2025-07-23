@@ -1,21 +1,25 @@
 create table user (
   id int unsigned primary key auto_increment not null,
   email varchar(255) not null unique,
-  password varchar(255) not null
+  firstname VARCHAR(100) NOT NULL,
+  lastname VARCHAR(100) NOT NULL,
+  password varchar(255) not null,
+  profile_pic VARCHAR(255) NOT NULL
+
 );
 
-create table item (
+create table exercice (
   id int unsigned primary key auto_increment not null,
-  title varchar(255) not null,
+  exercice TEXT NOT NULL,
+  pics VARCHAR(255) NOT NULL,
   user_id int unsigned not null,
   foreign key(user_id) references user(id)
 );
 
-insert into user(id, email, password)
-values
-  (1, "jdoe@mail.com", "123456");
-
-insert into item(id, title, user_id)
-values
-  (1, "Stuff", 1),
-  (2, "Doodads", 1);
+create table user_exercice (
+  id int unsigned primary key auto_increment not null,
+  user_id int unsigned not null,
+  exercice_id int unsigned not null,
+  foreign key(user_id) references user(id),
+  foreign key(exercice_id) references exercice(id)
+);
