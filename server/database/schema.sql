@@ -1,10 +1,10 @@
 create table user (
   id int unsigned primary key auto_increment not null,
-  email varchar(255) not null unique,
   firstname VARCHAR(100) NOT NULL,
   lastname VARCHAR(100) NOT NULL,
+  email varchar(255) not null unique,
   password varchar(255) not null,
-  profile_pic VARCHAR(255) NOT NULL
+  profile_pic VARCHAR(255) 
 
 );
 
