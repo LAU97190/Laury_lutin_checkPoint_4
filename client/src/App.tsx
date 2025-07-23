@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import "./App.css";
 import Logo from "./components/Logo/Logo";
 import NavBar from "./components/NavBar/NavBar";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Logo />
       <NavBar />
       <Outlet />
+      <Footer />
     </>
   );
 }
