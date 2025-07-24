@@ -8,9 +8,10 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 // Import the main app component
 import App from "./App";
 import ClassForm from "./pages/Class/class";
+import ExerciceAdmin from "./pages/Exercice/Exercice";
 import HomePage from "./pages/HomePage/HomePage";
-import Profile from "./pages/Profil/Profile";
 import Login from "./pages/User/Login/Login";
+import Profile from "./pages/User/Profil/Profile";
 import Register from "./pages/User/Registrer/Registrer";
 
 // Import additional components for new routes
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/class",
         element: <ClassForm />,
+      },
+      {
+        path: "/list-class",
+        element: <ExerciceAdmin />,
       },
     ],
   },

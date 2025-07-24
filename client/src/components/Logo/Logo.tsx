@@ -23,7 +23,7 @@ function Logo() {
           <Link to="">
             <img
               className="iconSociaNetwork"
-              src="./src/assets/images/Social-network/facebook.png"
+              src="../src/assets/images/Social-network/facebook.png"
               alt="Facebook"
             />
           </Link>
