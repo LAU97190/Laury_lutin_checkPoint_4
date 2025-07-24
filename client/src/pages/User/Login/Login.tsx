@@ -34,7 +34,7 @@ function Login() {
       if (success) {
         toast.success("Connexion réussie !");
         setTimeout(() => {
-          navigate("/");
+          navigate("/list-class");
         }, 2000);
       } else {
         toast.error("Identifiants incorrects");
