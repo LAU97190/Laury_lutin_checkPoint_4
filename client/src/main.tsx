@@ -7,6 +7,7 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 
 // Import the main app component
 import App from "./App";
+import ClassForm from "./pages/Class/class";
 import HomePage from "./pages/HomePage/HomePage";
 import Profile from "./pages/Profil/Profile";
 import Login from "./pages/User/Login/Login";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/class",
+        element: <ClassForm />,
       },
     ],
   },
