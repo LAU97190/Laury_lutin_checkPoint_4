@@ -59,6 +59,22 @@ app.use(
 // Uncomment one or more of these options depending on the format of the data sent by your client:
 
 app.use(express.json());
+import cookieParser from "cookie-parser";
+app.use(cookieParser());
+import fs from "node:fs";
+import path from "node:path";
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.get("/me", (req, res) => {
+  const token = req.cookies.token; // <- ici on récupère le cookie "token"
+  if (token) {
+    // vérifier sa validité, etc.
+    res.send({ loggedIn: true });
+  } else {
+    res.send({ loggedIn: false });
+  }
+});
+
 // app.use(express.urlencoded());
 // app.use(express.text());
 // app.use(express.raw());
@@ -80,9 +96,6 @@ app.use(router);
 // What it's for:
 // - Serving client static files from the server, which is useful when building a single-page application with React.
 // - Redirecting unhandled requests (e.g., all requests not matching a defined API route) to the client's index.html. This allows the client to handle client-side routing.
-
-import fs from "node:fs";
-import path from "node:path";
 
 // Serve server resources
 

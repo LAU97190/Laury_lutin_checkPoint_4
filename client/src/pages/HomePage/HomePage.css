@@ -1,0 +1,47 @@
+/* --- CONTAINER PRINCIPAL --- */
+.HomePageContainer {
+  background-color: var(--gray);
+  min-height: 100vh;
+  padding: 3rem 1.5rem;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* --- TITRE PRINCIPAL --- */
+.TitleHomePage {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary-red);
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid var(--primary-red);
+  display: inline-block;
+}
+
+/* --- PARAGRAPHE DE PRÉSENTATION --- */
+.textHomePage1 {
+  max-width: 800px;
+  font-size: 1.1rem;
+  color: var(--black);
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width: 767px) {
+  .TitleHomePage {
+    font-size: 2rem;
+  }
+
+  .textHomePage1 {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .HomePageContainer {
+    padding: 2rem 1rem;
+  }
+}

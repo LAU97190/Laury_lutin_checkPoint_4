@@ -1,83 +1,112 @@
-/* Liens généraux */
-a {
-  color: black;
-  text-decoration: none;
-}
-
-/* ========== DESKTOP NAVBAR ========== */
-.NavBarContainer {
-  display: none;
-}
-
-@media screen and (min-width: 1024px) {
-  .NavBarContainer {
-    margin: 3rem 0 3rem 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 2rem;
-    background-color: var(--color-grey, #f5f5f5); /* fallback si non défini */
-    padding: 1rem 0;
-    list-style: none;
-  }
-
-  .titleNav {
-    font-weight: 500;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
-  }
-
-  .titleNav:hover {
-    color: #d90000;
-  }
-}
-
-/* ========== MOBILE NAVBAR ========== */
-.navBarMobile {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+/* Composant principal */
+.navbar {
   width: 100%;
-  height: 60px;
   background-color: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 100;
+}
+
+/* Version desktop : logo centré, nav à gauche, réseaux à droite */
+.navbar-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Centrage logo */
+.logo-desktop {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  height: 60px;
+  object-fit: contain;
+}
+
+/* Liens de navigation */
+.navbar-links {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  justify-content: flex-start;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+/* Réseaux sociaux */
+.socialNetwork {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.iconSocialNetwork {
+  width: 32px;
+  height: 32px;
+  filter: grayscale(50%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.iconSocialNetwork:hover {
+  filter: none;
+  transform: scale(1.1);
+}
+
+/* Logo mobile */
+.logo-mobile {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Navigation mobile fixe en bas */
+.navbar-mobile {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-top: 1px solid #ccc;
-  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 0.5rem 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 200;
 }
 
-/* Liens icônes mobile */
-.icon-link {
-  flex: 1;
-  text-align: center;
-  transition: background 0.2s ease;
+.icon-link .icon {
+  width: 28px;
+  height: 28px;
 }
 
-.icon-link:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-  border-radius: 10px;
-}
+/* Responsive */
+@media (max-width: 767px) {
+  .navbar-desktop {
+    display: none;
+  }
 
-/* Icônes normales */
-.icon {
-  width: 36px;
-  height: 36px;
-}
+  .navbar-links,
+  .socialNetwork {
+    display: none;
+  }
 
-/* Icône centrale mise en valeur */
-.iconLogo {
-  width: 52px;
-  height: 52px;
-  margin-top: -20px;
-  background-color: white;
-  border-radius: 50%;
-  padding: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
-}
-
-/* Animation clic */
-.icon-link:active img {
-  transform: scale(0.95);
+  .logo-desktop {
+    display: none;
+  }
 }

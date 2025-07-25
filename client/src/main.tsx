@@ -7,6 +7,8 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 
 // Import the main app component
 import App from "./App";
+import ExerciseDetail from "./components/ExerciceDetails/ExerciceDetails";
+import { AuthProvider } from "./context/AuthContext";
 import ClassForm from "./pages/Class/class";
 import ExerciceAdmin from "./pages/Exercice/Exercice";
 import HomePage from "./pages/HomePage/HomePage";
@@ -52,6 +54,10 @@ const router = createBrowserRouter([
         path: "/list-class",
         element: <ExerciceAdmin />,
       },
+      {
+        path: "/list-class/:id",
+        element: <ExerciseDetail />,
+      },
     ],
   },
 ]);
@@ -68,7 +74,9 @@ if (rootElement == null) {
 // Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
 

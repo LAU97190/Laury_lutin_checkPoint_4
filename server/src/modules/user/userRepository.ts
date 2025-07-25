@@ -12,6 +12,13 @@ type User = {
   profile_pic: string;
 };
 
+type UserUpdate = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  profile_pic: string;
+};
+
 class UserRepository {
   async create(user: Omit<User, "id">) {
     const [result] = await databaseClient.query<Result>(
@@ -54,6 +61,16 @@ class UserRepository {
 
     const user = rows[0] as User | undefined;
     return user ?? null;
+  }
+
+  // Met a jour les information de l'utilisateur
+  async update(id: number, data: UserUpdate) {
+    const { firstname, lastname, email, profile_pic } = data;
+
+    await databaseClient.query(
+      "UPDATE user SET firstname = ?, lastname = ?, email = ?, profile_pic = ? WHERE id = ?",
+      [firstname, lastname, email, profile_pic, id],
+    );
   }
 }
 

@@ -6,14 +6,6 @@
   --border-gray: #ccc;
 }
 
-body,
-html {
-  height: 100%;
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #fafafa;
-}
-
 .formPageWrapper {
   display: flex;
   justify-content: center;
@@ -36,13 +28,6 @@ html {
 }
 
 @media (min-width: 769px) {
-  body,
-  html {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .classFormBloc {
     max-width: 800px;
     width: 100%; /* largeur fluide */
@@ -175,13 +160,6 @@ html {
 
 /* === MEDIA QUERY POUR GRANDS ÉCRANS === */
 @media (min-width: 769px) {
-  body,
-  html {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .classFormBloc {
     max-width: 800px;
     padding: 3rem 4rem;
