@@ -43,6 +43,8 @@ const edit: RequestHandler = async (req, res, next) => {
 };
 
 const add: RequestHandler = async (req, res, next) => {
+  console.log("file", req.file);
+  console.log("body", req.body);
   try {
     const { exercice, user_id } = req.body;
     const pics = req.file?.filename;

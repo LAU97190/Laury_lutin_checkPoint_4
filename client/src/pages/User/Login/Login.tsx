@@ -30,7 +30,7 @@ function Login() {
 
   const handleLogin = async (
     email: string,
-    password: string
+    password: string,
   ): Promise<LoginResult> => {
     try {
       const response = await fetch(
@@ -43,7 +43,7 @@ function Login() {
           },
           credentials: "include",
           body: JSON.stringify({ email, password }),
-        }
+        },
       );
 
       if (!response.ok) {

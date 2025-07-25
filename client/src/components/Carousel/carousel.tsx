@@ -44,6 +44,13 @@ function Carousel() {
     }
   }, []);
 
+  const getImage = (path: string) => {
+    if (path.includes(".")) {
+      return `${import.meta.env.VITE_API_URL}/assets/images/${path}`;
+    }
+    return DefaultImage;
+  };
+
   useEffect(() => {
     getExercices();
   }, [getExercices]);
@@ -77,8 +84,8 @@ function Carousel() {
                   <div className="idExercice">
                     <img
                       className="ExercisePic"
-                      src={DefaultImage}
-                      alt="Photo titre"
+                      src={getImage(carousel.pics)}
+                      alt="Titre de l'exercice"
                       loading="lazy"
                     />
                   </div>

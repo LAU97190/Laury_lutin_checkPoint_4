@@ -64,7 +64,7 @@ export default function ClassForm({ onClose }: ClassFormProps) {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
 
       if (response.ok) {
