@@ -1,16 +1,18 @@
 import { Outlet } from "react-router";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
-import Logo from "./components/Logo/Logo";
 import NavBar from "./components/NavBar/NavBar";
 
 function App() {
   return (
     <>
-      <Logo />
-      <NavBar />
-      <Outlet />
-      <Footer />
+      <header>
+        <NavBar />
+      </header>
+      <main>
+        <Outlet />
+        <Footer />
+      </main>
     </>
   );
 }

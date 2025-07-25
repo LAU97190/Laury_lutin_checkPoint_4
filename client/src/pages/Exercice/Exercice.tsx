@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Exercice.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// Type pour les exercices avec données utilisateur (ce que vous recevez de l'API)
-type ExerciceItem = {
+type Exercice = {
   id: number;
   user_id: number;
   exercice: string;
@@ -12,199 +13,169 @@ type ExerciceItem = {
   email: string;
 };
 
-type User = {
-  id: number;
-  firstname: string;
-  lastname: string;
-  email: string;
-};
-
 function ExerciceAdmin() {
-  const [exerciceList, setExerciceList] = useState<ExerciceItem[]>([]);
+  const [exercices, setExercices] = useState<Exercice[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [editId, setEditId] = useState<number | null>(null);
-  const [editedExercice, setEditedExercice] = useState("");
-  const [editedPics, setEditedPics] = useState("");
-  const [user, setUser] = useState<User | null>(null);
-
-  // 1) Récupérer l'ID utilisateur depuis localStorage
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    console.log("Contenu localStorage 'user':", storedUser); // Debug
-
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        console.log("User parsé:", parsedUser); // Debug
-
-        if (parsedUser?.id) {
-          fetchUserFromAPI(parsedUser.id);
-        } else {
-          console.log("Pas d'ID trouvé dans le user"); // Debug
-          setUser(null);
-        }
-      } catch (error) {
-        console.error("Erreur parsing user localStorage", error);
-        setUser(null);
-      }
-    } else {
-      console.log("Aucun user dans localStorage"); // Debug
-    }
-  }, []);
-
-  // 2) Fonction pour récupérer l'utilisateur complet depuis la base via API
-  const fetchUserFromAPI = async (userId: number) => {
-    console.log("Tentative de récupération user avec ID:", userId); // Debug
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/user/${userId}`,
-      );
-      console.log("Réponse API user:", response.status); // Debug
-
-      if (!response.ok) throw new Error("Erreur API utilisateur");
-      const data = await response.json();
-      console.log("Données user récupérées:", data); // Debug
-
-      setUser(data);
-    } catch (error) {
-      console.error("Erreur récupération user API :", error);
-      setUser(null);
-    }
-  };
-
-  // 3) Récupérer tous les exercices (maintenant avec les infos utilisateur)
-  const getExercice = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/exercices/`,
-      );
-      if (!response.ok) throw new Error("Erreur réseau");
-      const data: ExerciceItem[] = await response.json();
-      setExerciceList(data);
-    } catch (error) {
-      console.error("Erreur récupération exercices :", error);
-    }
-  }, []);
+  const [exerciceEdit, setExerciceEdit] = useState("");
+  const [picEdit, setPicEdit] = useState("");
 
   useEffect(() => {
-    getExercice();
-  }, [getExercice]);
+    fetch(`${import.meta.env.VITE_API_URL}/api/exercices/`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Erreur lors du chargement");
+        return res.json();
+      })
+      .then(setExercices)
+      .catch(() => setError("Erreur lors du chargement"))
+      .finally(() => setLoading(false));
+  }, []);
 
-  const handleDelete = async (id: number) => {
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/exercices/${id}`,
-        { method: "DELETE" },
-      );
-      if (!res.ok) throw new Error("Erreur suppression");
-      getExercice();
-    } catch (error) {
-      alert("Erreur lors de la suppression");
-    }
+  const getImageUrl = (pics: string) => {
+    if (!pics) return "";
+    if (pics.startsWith("http")) return pics;
+    return `${import.meta.env.VITE_API_URL}/uploads/${pics}`;
   };
 
-  const handleEdit = (exercice: ExerciceItem) => {
-    setEditId(exercice.id);
-    setEditedExercice(exercice.exercice);
-    setEditedPics(exercice.pics);
+  const deleteExercice = (id: number) => {
+    toast.info(
+      <>
+        Supprimer cet exercice ?
+        <button
+          type="button"
+          onClick={() => {
+            toast.dismiss();
+            fetch(`${import.meta.env.VITE_API_URL}/api/exercices/${id}`, {
+              method: "DELETE",
+            })
+              .then((res) => {
+                if (!res.ok) throw new Error();
+                setExercices((exs) => exs.filter((ex) => ex.id !== id));
+                toast.success("Exercice supprimé");
+              })
+              .catch(() => toast.error("Erreur lors de la suppression"));
+          }}
+          style={{
+            marginLeft: "10px",
+            backgroundColor: "#d62828",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          Confirmer
+        </button>
+      </>,
+      { autoClose: 5000 },
+    );
   };
 
-  const handleUpdate = async (e: React.FormEvent) => {
+  const handleEdit = (e: React.FormEvent, id: number) => {
     e.preventDefault();
-    if (!user) {
-      alert("Utilisateur non connecté");
-      return;
-    }
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/exercices/${editId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            exercice: editedExercice,
-            pics: editedPics,
-            user_id: user.id,
-          }),
-        },
-      );
-      if (!res.ok) throw new Error("Erreur mise à jour");
-      setEditId(null);
-      setEditedExercice("");
-      setEditedPics("");
-      getExercice();
-    } catch (error) {
-      alert("Erreur lors de la mise à jour");
-    }
+    const current = exercices.find((ex) => ex.id === id);
+    const userId = current?.user_id || 1;
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/exercices/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        exercice: exerciceEdit,
+        pics: picEdit,
+        user_id: userId,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        setExercices((prev) =>
+          prev.map((ex) =>
+            ex.id === id
+              ? { ...ex, exercice: exerciceEdit, pics: picEdit }
+              : ex,
+          ),
+        );
+        setEditId(null);
+        toast.success("Exercice modifié");
+      })
+      .catch(() => toast.error("Erreur lors de la modification"));
   };
+
+  // Extraire la fonction d'erreur pour l'image hors JSX
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
+    e.currentTarget.style.display = "none";
+  };
+
+  if (loading) return <div className="exercice-admin">Chargement...</div>;
+  if (error) return <div className="exercice-admin">Erreur: {error}</div>;
 
   return (
     <div className="exercice-admin">
       <h2>Liste des exercices</h2>
 
-      {!user ? (
-        <p style={{ color: "red" }}>⚠️ Utilisateur non connecté</p>
-      ) : (
-        <p>👋 Bonjour {user.firstname} !</p>
-      )}
-
-      {exerciceList.length === 0 ? (
-        <p>Aucun exercice trouvé.</p>
-      ) : (
-        <div className="exercice-list">
-          {exerciceList.map((exercice) => (
-            <div className="exercice-item" key={exercice.id}>
-              {editId === exercice.id ? (
-                <form className="edit-form" onSubmit={handleUpdate}>
+      <div className="exercice-list">
+        {exercices.length === 0 ? (
+          <p>Aucun exercice trouvé</p>
+        ) : (
+          exercices.map((ex) => (
+            <div key={ex.id} className="exercice-item">
+              {editId === ex.id ? (
+                <form onSubmit={(e) => handleEdit(e, ex.id)}>
                   <input
                     type="text"
-                    value={editedExercice}
-                    onChange={(e) => setEditedExercice(e.target.value)}
-                    required
+                    value={exerciceEdit}
+                    onChange={(e) => setExerciceEdit(e.target.value)}
                   />
                   <input
                     type="text"
-                    value={editedPics}
-                    onChange={(e) => setEditedPics(e.target.value)}
-                    required
+                    value={picEdit}
+                    onChange={(e) => setPicEdit(e.target.value)}
                   />
-                  <button type="submit">💾 Sauvegarder</button>
-                  <button
-                    type="button"
-                    onClick={() => setEditId(null)}
-                    className="cancel-btn"
-                  >
-                    ❌ Annuler
+                  <button type="submit">Sauvegarder</button>
+                  <button type="button" onClick={() => setEditId(null)}>
+                    Annuler
                   </button>
                 </form>
               ) : (
                 <>
-                  <div>
-                    <strong>{exercice.exercice}</strong>
-                    <p>{exercice.pics}</p>
-                    {/* Maintenant vous pouvez afficher les infos utilisateur directement */}
-                    <p className="user-info">
-                      📝 Créé par: {exercice.firstname} {exercice.lastname}
-                      <br />📧 Email: {exercice.email}
-                    </p>
-                  </div>
-                  <div className="exercice-actions">
-                    <button type="button" onClick={() => handleEdit(exercice)}>
-                      ✏️
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(exercice.id)}
-                    >
-                      🗑️
-                    </button>
-                  </div>
+                  {ex.pics && (
+                    <img
+                      src={getImageUrl(ex.pics)}
+                      alt={ex.exercice}
+                      style={{ maxWidth: 200, maxHeight: 150 }}
+                      onError={handleImageError}
+                    />
+                  )}
+                  <p>{ex.exercice}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditId(ex.id);
+                      setExerciceEdit(ex.exercice);
+                      setPicEdit(ex.pics);
+                    }}
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    type="button"
+                    style={{ color: "red", marginLeft: 10 }}
+                    onClick={() => deleteExercice(ex.id)}
+                  >
+                    Supprimer
+                  </button>
                 </>
               )}
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
+
+      <ToastContainer position="top-right" />
     </div>
   );
 }

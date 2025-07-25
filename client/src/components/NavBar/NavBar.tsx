@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
-import "../NavBar/NavBar.css";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "./NavBar.css";
+
+import homeIcon from "../../assets/images/Icons/home.svg";
+import logoImg from "../../assets/images/Icons/logo.jpg";
+import profileIcon from "../../assets/images/Icons/profile.png";
+import shopIcon from "../../assets/images/Icons/shop.png";
+import facebookIcon from "../../assets/images/Social-network/facebook.png";
+import gmailIcon from "../../assets/images/Social-network/gmail.png";
+import instagramIcon from "../../assets/images/Social-network/instagram.png";
+
 function NavBar() {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
 
@@ -11,49 +20,94 @@ function NavBar() {
   }, []);
 
   return (
-    <div className="">
-      <ul className="NavBarContainer">
-        <Link to="/" className="titleNav">
-          Acceuil
-        </Link>
-        <Link to="/" className="titleNav">
-          A propos
-        </Link>
-        <Link to="/" className="titleNav">
-          Cours
-        </Link>
-        <Link to="/" className="titleNav">
-          Contactez-nous
-        </Link>
-      </ul>
+    <>
+      <nav className="navbar" aria-label="Navigation principale">
+        {isMobileView ? (
+          <div className="logo-mobile">
+            <img src={logoImg} alt="Logo" className="logo" />
+          </div>
+        ) : (
+          <div className="navbar-desktop">
+            {/* Réseaux sociaux à gauche */}
+            <div className="socialNetwork">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  className="iconSocialNetwork"
+                  src={facebookIcon}
+                  alt="Facebook"
+                />
+              </a>
+              <a href="mailto:contact@exemple.com">
+                <img
+                  className="iconSocialNetwork"
+                  src={gmailIcon}
+                  alt="Gmail"
+                />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  className="iconSocialNetwork"
+                  src={instagramIcon}
+                  alt="Instagram"
+                />
+              </a>
+            </div>
 
+            {/* Logo centré */}
+            <div className="logo-desktop">
+              <img src={logoImg} alt="Logo" className="logo" />
+            </div>
+
+            {/* Nav à droite */}
+            <ul className="navbar-links">
+              <li>
+                <Link to="/" className="nav-link">
+                  Accueil
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="nav-link">
+                  À propos
+                </Link>
+              </li>
+              <li>
+                <Link to="/courses" className="nav-link">
+                  Cours
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="nav-link">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
+      </nav>
+
+      {/* Nav mobile fixe en bas */}
       {isMobileView && (
-        <div className="navBarMobile">
+        <div className="navbar-mobile">
+          <Link to="/shop" className="icon-link">
+            <img className="icon" src={shopIcon} alt="Boutique" />
+          </Link>
           <Link to="/" className="icon-link">
-            <img
-              className="icon"
-              src="./src/assets/images/Icons/shop.png"
-              alt="Touche boutique"
-            />
+            <img className="icon" src={homeIcon} alt="Accueil" />
           </Link>
-          <Link to="/HomePage" className="icon-link">
-            <img
-              className="iconLogo"
-              src="./src/assets/images/Icons/home.svg"
-              alt="Touche page d'accueil"
-            />
-          </Link>
-
-          <Link to="/Profile" className="icon-link">
-            <img
-              className="icon"
-              src="./src/assets/images/Icons/profile.png"
-              alt="Touche profile"
-            />
+          <Link to="/profile" className="icon-link">
+            <img className="icon" src={profileIcon} alt="Profil" />
           </Link>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

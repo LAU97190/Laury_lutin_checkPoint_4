@@ -24,12 +24,8 @@ function Profile() {
   const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    // Récupération des informations utilisateur sans l'authentification
+    fetch(`${import.meta.env.VITE_API_URL}/api/users`)
       .then((response) => {
         if (!response.ok) throw new Error("Erreur lors de la récupération.");
         return response.json();
@@ -58,8 +54,9 @@ function Profile() {
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/api/users/${user.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           firstname,
           lastname,
@@ -75,6 +72,12 @@ function Profile() {
     }
   };
 
+  const getSafeProfilePic = () => {
+    return profilePic && profilePic.trim() !== ""
+      ? profilePic
+      : "/images/default-avatar.png"; // à créer dans /public/images/
+  };
+
   return (
     <section className="section1">
       <header className="header1">
@@ -83,7 +86,7 @@ function Profile() {
 
       <div className="profil">
         <div className="img-profil">
-          <img src={profilePic} alt="Avatar" />
+          <img src={getSafeProfilePic()} alt="Avatar" />
         </div>
       </div>
 

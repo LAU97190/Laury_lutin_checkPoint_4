@@ -1,32 +1,97 @@
-.imgContainer {
-  @media screen and (min-width: 1024px) {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 21rem;
-  }
+.carouselBloc {
+  padding: 3rem 1rem;
+  background-color: #f7f7f7;
+  text-align: center;
 }
 
-.socialNetwork {
-  @media screen and (min-width: 1024px) {
-    display: flex;
-  }
+.themetitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #333;
 }
 
-.iconSociaNetwork {
-  @media screen and (min-width: 1024px) {
-    width: 5em;
-    padding-right: 30px;
-  }
+/* Bloc Swiper */
+.swiperBloc {
+  width: 100%;
+  padding: 2rem 0;
 }
-.logoContainer {
+
+/* Chaque slide */
+.exercicesItem {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 220px;
+  transition: transform 0.3s ease;
 }
 
-.logo {
-  width: 50%;
-  @media screen and (min-width: 1024px) {
-    width: 25%;
+.exercicesItem:hover {
+  transform: translateY(-5px);
+}
+
+/* Contenu à l'intérieur d'une slide */
+.swiperContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Avatar utilisateur */
+.ExercisePic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #007bff;
+}
+
+/* Nom utilisateur */
+.exerciceUser {
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+/* Swiper pagination et navigation */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #007bff;
+  transition: color 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #0056b3;
+}
+
+.swiper-pagination-bullet {
+  background: #ccc;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #007bff;
+}
+
+/* Responsive ajustements */
+@media screen and (max-width: 767px) {
+  .themetitle {
+    font-size: 1.5rem;
+  }
+
+  .exercicesItem {
+    height: 180px;
+    padding: 1rem;
+  }
+
+  .ExercisePic {
+    width: 50px;
+    height: 50px;
   }
 }

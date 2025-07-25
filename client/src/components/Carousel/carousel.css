@@ -1,0 +1,138 @@
+/* Container principal du carousel */
+.carouselBloc {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+}
+
+/* Titre du carousel */
+.carouselBloc .themetitle {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #d62828;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+/* Message d'erreur */
+.carouselBloc .error-message {
+  color: #b00020;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* Style global Swiper */
+.swiperBloc {
+  padding-bottom: 2rem;
+}
+
+/* Chaque slide */
+.exercicesItem {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+
+.exercicesItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* Contenu dans chaque slide */
+.swiperContent {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Container image + titre */
+.idExercice {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Image de l'exercice */
+.ExercisePic {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.ExercisePic:hover {
+  transform: scale(1.03);
+}
+
+/* Nom de l'exercice */
+.exercice {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4a4e69;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Lien vers l'exercice */
+.exercice-link {
+  text-align: center;
+  font-weight: 600;
+  color: #d62828;
+  text-decoration: none;
+  border: 2px solid #d62828;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.exercice-link:hover,
+.exercice-link:focus {
+  background-color: #d62828;
+  color: white;
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .carouselBloc .themetitle {
+    font-size: 2rem;
+  }
+
+  .ExercisePic {
+    max-height: 150px;
+  }
+
+  .exercice {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carouselBloc {
+    padding: 0 0.5rem;
+  }
+
+  .ExercisePic {
+    max-height: 120px;
+  }
+}
+
+.exercicesItem {
+  min-width: 300px; /* largeur minimum pour chaque slide */
+  max-width: 350px; /* largeur max déjà dans ton grid */
+  box-sizing: border-box;
+}

@@ -46,4 +46,32 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add };
+const edit: RequestHandler = async (req, res, next) => {
+  try {
+    const idFromParams = Number(req.params.id);
+    const idFromAuth = Number(req.auth.sub);
+
+    if (!idFromAuth) {
+      res.status(401);
+      return;
+    }
+
+    if (idFromAuth !== idFromParams) {
+      res.status(403);
+      return;
+    }
+
+    const { firstname, lastname, email, profile_pic, id } = req.body;
+    await userRepository.update(idFromParams, {
+      firstname,
+      lastname,
+      email,
+      profile_pic,
+    });
+    res.status(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { browse, read, add, edit };
