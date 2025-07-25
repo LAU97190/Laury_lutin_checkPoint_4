@@ -91,7 +91,7 @@ function Login() {
         toast.success("Connexion réussie !");
         login(data.email, data.password);
         setTimeout(() => {
-          navigate("/list-class");
+          navigate("/profile");
         }, 2000);
       } else {
         toast.error(result.error || "Erreur de connexion");

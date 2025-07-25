@@ -14,6 +14,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import DefaultImage from "../../assets/images/tabata.png";
 
 type Carousel = {
   id: number;
@@ -43,38 +44,16 @@ function Carousel() {
     }
   }, []);
 
-  useEffect(() => {
-    getExercices();
-  }, [getExercices]);
-
-  const getImageUrl = useCallback((pics: string) => {
-    if (!pics) return "/default-exercise.jpg";
-
-    if (pics.startsWith("http")) {
-      return pics;
+  const getImage = (path: string) => {
+    if (path.includes(".")) {
+      return `${import.meta.env.VITE_API_URL}/assets/images/${path}`;
     }
-
-    return `${import.meta.env.VITE_API_URL}/uploads/${pics}`;
-  }, []);
-
-  // Ajout minimal pour éviter erreur Biome : définir handleImageError
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>,
-  ) => {
-    e.currentTarget.src = "/default-exercise.jpg";
+    return DefaultImage;
   };
 
   useEffect(() => {
-    if (exercices.length > 0) {
-      console.log(
-        exercices.map((ex) => ({
-          id: ex.id,
-          originalPics: ex.pics,
-          fullUrl: getImageUrl(ex.pics),
-        })),
-      );
-    }
-  }, [exercices, getImageUrl]);
+    getExercices();
+  }, [getExercices]);
 
   return (
     <>
@@ -105,9 +84,8 @@ function Carousel() {
                   <div className="idExercice">
                     <img
                       className="ExercisePic"
-                      src={getImageUrl(carousel.pics)}
-                      alt={`Exercice: ${carousel.exercice}`}
-                      onError={handleImageError}
+                      src={getImage(carousel.pics)}
+                      alt="Titre de l'exercice"
                       loading="lazy"
                     />
                   </div>

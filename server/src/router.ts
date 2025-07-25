@@ -29,7 +29,7 @@ import authMiddleware from "./auth/authMiddleware";
 import connectedMiddleware from "./middleware/connectedMiddleware";
 /* ************************************************************************* */
 import exerciceController from "./modules/exercice/exerciceAction";
-const upload = multer({ dest: "uploads/" });
+import upload from "./services/upload.services";
 
 router.get("/api/exercices", exerciceAction.browse);
 router.get("/api/exercices/:id", exerciceAction.read);
