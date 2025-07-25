@@ -74,18 +74,18 @@ function NavBar() {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="nav-link">
-                  À propos
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses" className="nav-link">
+                <Link to="/list-class" className="nav-link">
                   Cours
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="nav-link">
                   Contact
+                </Link>
+              </li>
+              <li>
+                <Link to="/profile" className="nav-link">
+                  Mon compte
                 </Link>
               </li>
             </ul>
@@ -96,13 +96,13 @@ function NavBar() {
       {/* Nav mobile fixe en bas */}
       {isMobileView && (
         <div className="navbar-mobile">
-          <Link to="/shop" className="icon-link">
-            <img className="icon" src={shopIcon} alt="Boutique" />
+          <Link to="/class" className="icon-link">
+            <img className="icon" src={shopIcon} alt="Exercice" />
           </Link>
           <Link to="/" className="icon-link">
             <img className="icon" src={homeIcon} alt="Accueil" />
           </Link>
-          <Link to="/profile" className="icon-link">
+          <Link to="/login" className="icon-link">
             <img className="icon" src={profileIcon} alt="Profil" />
           </Link>
         </div>

@@ -64,14 +64,14 @@ export default function ClassForm({ onClose }: ClassFormProps) {
         {
           method: "POST",
           body: formData,
-        },
+        }
       );
 
       if (response.ok) {
         toast.success("Exercice créé !");
         if (onClose) onClose();
         setTimeout(() => {
-          navigate("/profile");
+          navigate("/class");
         }, 1000);
       } else {
         toast.error("Erreur lors de l’envoi");
